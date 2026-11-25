@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Assinar documento | Assinatura Eletrônica</title>
+  <link rel="stylesheet" href="/estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <strong>Assinatura Eletrônica via Link</strong>
+  </header>
+
+  <main>
+    <section id="carregando" class="cartao">
+      <p>Carregando...</p>
+    </section>
+
+    <!-- Etapa 1: verificação de identidade -->
+    <section id="etapa-identificacao" class="cartao estreito oculto">
+      <h1>Confirme sua identidade</h1>
+      <p class="subtitulo">Para abrir o documento, informe seu CPF e sua data de nascimento.</p>
+      <form id="form-identificacao">
+        <label for="cpf">CPF</label>
+        <input id="cpf" name="cpf" inputmode="numeric" placeholder="000.000.000-00" required autocomplete="off">
+        <label for="nascimento">Data de nascimento</label>
+        <input id="nascimento" name="dataNascimento" inputmode="numeric" placeholder="dd/mm/aaaa" maxlength="10" required autocomplete="off">
+        <p class="aviso" id="tentativas"></p>
+        <div class="acoes"><button type="submit">Confirmar</button></div>
+      </form>
+      <p id="mensagem-identificacao" class="mensagem oculto" role="alert"></p>
+    </section>
+
+    <!-- Etapa 2: visualização e decisão -->
+    <section id="etapa-documento" class="cartao oculto">
+      <h1 id="nome-documento"></h1>
+      <p class="subtitulo">
+        Enviado por <strong id="nome-solicitante"></strong> para assinatura de <strong id="nome-signatario"></strong>.
+      </p>
+      <p class="aviso" id="info-caixa"></p>
+      <iframe id="visualizador" class="visualizador-pdf" title="Documento para assinatura"></iframe>
+      <p class="aviso">
+        Não conseguiu ver o documento? <a id="abrir-documento" target="_blank" rel="noopener">Abrir em nova aba</a>.
+      </p>
+
+      <label class="aceite">
+        <input id="aceite" type="checkbox">
+        Declaro que li o documento acima e concordo em assiná-lo eletronicamente.
+      </label>
+      <div class="acoes">
+        <button id="assinar" type="button" disabled>Assinar documento</button>
+        <button id="recusar" type="button" class="secundario">Recusar assinatura</button>
+      </div>
+      <p id="mensagem-documento" class="mensagem oculto" role="alert"></p>
+    </section>
+
+    <!-- Etapa final: resultado -->
+    <section id="etapa-final" class="cartao estreito oculto">
+      <h1 id="titulo-final"></h1>
+      <p id="texto-final" class="mensagem"></p>
+      <dl id="comprovante" class="resultado oculto">
+        <dt>Data e hora da assinatura</dt>
+        <dd id="comprovante-data"></dd>
+        <dt>Hash SHA-256 do documento</dt>
+        <dd id="comprovante-hash-documento" class="hash"></dd>
+        <dt>Hash SHA-256 das evidências</dt>
+        <dd id="comprovante-hash-evidencias" class="hash"></dd>
+        <dt>Registro na blockchain</dt>
+        <dd id="comprovante-blockchain"></dd>
+        <dt class="registro-confirmado oculto">Transação</dt>
+        <dd class="registro-confirmado oculto hash"><a id="comprovante-transacao" target="_blank" rel="noopener"></a></dd>
+        <dt class="registro-confirmado oculto">Bloco</dt>
+        <dd class="registro-confirmado oculto" id="comprovante-bloco"></dd>
+      </dl>
+      <div id="acoes-comprovante" class="acoes oculto">
+        <a id="ver-documento-assinado" class="botao oculto" target="_blank" rel="noopener">Documento assinado</a>
+        <a id="ver-documento-original" class="botao secundario" target="_blank" rel="noopener">Documento original</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="/js/comum.js"></script>
+  <script src="/js/assinar.js"></script>
+</body>
+</html>

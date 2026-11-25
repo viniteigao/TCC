@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Entrar | Assinatura Eletrônica</title>
+  <link rel="stylesheet" href="/estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <strong>Assinatura Eletrônica via Link</strong>
+  </header>
+
+  <main class="estreito">
+    <section class="cartao">
+      <h1>Área do solicitante</h1>
+      <p class="subtitulo">Envie documentos para assinatura e acompanhe o status.</p>
+
+      <div class="abas">
+        <button id="aba-login" type="button">Entrar</button>
+        <button id="aba-cadastro" type="button" class="secundario">Criar conta</button>
+      </div>
+
+      <form id="form-login">
+        <label for="login-email">E-mail</label>
+        <input id="login-email" name="email" type="email" required autocomplete="email">
+        <label for="login-senha">Senha</label>
+        <input id="login-senha" name="senha" type="password" required autocomplete="current-password">
+        <div class="acoes"><button type="submit">Entrar</button></div>
+      </form>
+
+      <form id="form-cadastro" class="oculto">
+        <label for="cadastro-nome">Nome completo</label>
+        <input id="cadastro-nome" name="nome" required autocomplete="name">
+        <label for="cadastro-email">E-mail</label>
+        <input id="cadastro-email" name="email" type="email" required autocomplete="email">
+        <label for="cadastro-senha">Senha (mínimo de 8 caracteres)</label>
+        <input id="cadastro-senha" name="senha" type="password" minlength="8" required autocomplete="new-password">
+        <div class="acoes"><button type="submit">Criar conta</button></div>
+      </form>
+
+      <p id="mensagem" class="mensagem oculto" role="alert"></p>
+    </section>
+  </main>
+
+  <script src="/js/comum.js"></script>
+  <script src="/js/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+# Repositório público: só o necessário.
+# Tudo é ignorado, exceto o que é liberado explicitamente abaixo.
+# Ficam de fora, de propósito: Sistema/.env (chaves), Sistema/uploads*
+# (PDFs enviados), Sistema/banco/dados_*.sql (dump com dados reais),
+# Testes/, Remix/, Banco de Dados/, backups e arquivos auxiliares do LaTeX.
+/*
+!/.gitignore
+!/README.md
+
+# ---- Sistema (código-fonte) ----
+!/Sistema/
+/Sistema/*
+!/Sistema/src/
+!/Sistema/public/
+!/Sistema/scripts/
+!/Sistema/testes/
+!/Sistema/contrato/
+!/Sistema/banco/
+/Sistema/banco/*
+!/Sistema/banco/schema.sql
+!/Sistema/package.json
+!/Sistema/package-lock.json
+!/Sistema/.env.example
+!/Sistema/.gitignore
+!/Sistema/LEIA-ME.md
+
+# ---- Texto do TCC (LaTeX), figuras e PDF compilado ----
+!/TCC Overleaf/
+/TCC Overleaf/*
+!/TCC Overleaf/TCC/
+/TCC Overleaf/TCC/*
+!/TCC Overleaf/TCC/TCC.tex
+!/TCC Overleaf/TCC/TCC.pdf
+!/TCC Overleaf/TCC/referencias.bib
+!/TCC Overleaf/TCC/diagrama_de_arquitetura.pdf
+!/TCC Overleaf/TCC/diagrama_de_atividades.png
+!/TCC Overleaf/TCC/diagrama_de_casos_de_uso.png
+!/TCC Overleaf/TCC/diagrama_de_classes.png
+!/TCC Overleaf/TCC/diagrama_de_sequencia.png
+!/TCC Overleaf/TCC/diagrama_de_uma_blockchain.png
+!/TCC Overleaf/TCC/diagrama_estados.png
+!/TCC Overleaf/TCC/diagrama_mer.png
+!/TCC Overleaf/TCC/tela0*.png
+!/TCC Overleaf/TCC/fontes_diagramas/

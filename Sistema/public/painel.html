@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Painel | Assinatura Eletrônica</title>
+  <link rel="stylesheet" href="/estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <strong>Assinatura Eletrônica via Link</strong>
+    <div class="usuario">
+      <span id="nome-usuario"></span>
+      <button id="sair" type="button" class="secundario">Sair</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="cartao">
+      <h2>Enviar documento para assinatura</h2>
+      <form id="form-documento">
+        <label for="arquivo">Documento (PDF, até 10 MB)</label>
+        <input id="arquivo" name="arquivo" type="file" accept="application/pdf,.pdf" required>
+
+        <div id="posicionamento" class="posicionamento oculto">
+          <p class="aviso">
+            Arraste a caixa até o local da assinatura. Use o quadradinho no canto inferior direito
+            para ajustar o tamanho (ou as setas do teclado para mover).
+          </p>
+          <div class="paginacao">
+            <button type="button" id="pagina-anterior" class="secundario pequeno">Página anterior</button>
+            <span id="indicador-pagina"></span>
+            <button type="button" id="pagina-seguinte" class="secundario pequeno">Próxima página</button>
+          </div>
+          <div id="container-pdf" class="container-pdf">
+            <div class="area-pdf">
+              <canvas id="canvas-pdf"></canvas>
+              <div id="caixa-assinatura" class="caixa-assinatura" tabindex="0" role="button"
+                   aria-label="Caixa de assinatura. Arraste ou use as setas do teclado para posicionar.">
+                <span id="rotulo-caixa">Assinatura do signatário</span>
+                <div id="alca-caixa" class="alca-redimensionar" aria-hidden="true"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grade">
+          <div>
+            <label for="nome-signatario">Nome do signatário</label>
+            <input id="nome-signatario" name="nomeSignatario" required>
+          </div>
+          <div>
+            <label for="email-signatario">E-mail do signatário</label>
+            <input id="email-signatario" name="emailSignatario" type="email" required>
+          </div>
+          <div>
+            <label for="cpf-signatario">CPF do signatário</label>
+            <input id="cpf-signatario" name="cpfSignatario" inputmode="numeric" placeholder="000.000.000-00" required>
+          </div>
+          <div>
+            <label for="nascimento-signatario">Data de nascimento do signatário</label>
+            <input id="nascimento-signatario" name="dataNascimentoSignatario" inputmode="numeric" placeholder="dd/mm/aaaa" maxlength="10" required>
+          </div>
+          <div>
+            <label for="validade">Validade do link (dias)</label>
+            <input id="validade" name="validadeDias" type="number" min="1" max="30" value="7" required>
+          </div>
+        </div>
+
+        <p class="aviso">O CPF e a data de nascimento serão exigidos do signatário para abrir o documento (até 3 tentativas).</p>
+        <div class="acoes"><button type="submit">Gerar link de assinatura</button></div>
+      </form>
+
+      <p id="mensagem" class="mensagem oculto" role="alert"></p>
+
+      <div id="resultado" class="resultado oculto">
+        <div class="mensagem ok">Documento enviado e link gerado com sucesso.</div>
+        <dl>
+          <dt>Hash SHA-256 do documento</dt>
+          <dd id="resultado-hash" class="hash"></dd>
+          <dt>Validade do link</dt>
+          <dd id="resultado-validade"></dd>
+          <dt>Link de assinatura</dt>
+          <dd>
+            <div class="link-gerado">
+              <input id="resultado-link" readonly>
+              <button id="copiar-link" type="button" class="secundario">Copiar</button>
+            </div>
+            <p class="aviso">O link também foi enviado ao signatário. Você pode copiá-lo novamente na lista de documentos enquanto a assinatura estiver pendente.</p>
+          </dd>
+        </dl>
+      </div>
+    </section>
+
+    <section class="cartao">
+      <h2>Documentos enviados</h2>
+      <p id="mensagem-lista" class="mensagem oculto" role="status"></p>
+      <div class="tabela-rolagem">
+        <table>
+          <thead>
+            <tr>
+              <th>Documento</th>
+              <th>Signatário</th>
+              <th>Enviado em</th>
+              <th>Validade</th>
+              <th>Status do link</th>
+              <th>Blockchain</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="lista-documentos"></tbody>
+        </table>
+      </div>
+      <div class="acoes"><button id="atualizar" type="button" class="secundario">Atualizar</button></div>
+    </section>
+  </main>
+
+  <dialog id="dialogo-edicao" aria-labelledby="titulo-edicao">
+    <form id="form-edicao">
+      <h2 id="titulo-edicao">Editar dados do signatário</h2>
+      <p class="aviso" id="edicao-documento"></p>
+
+      <div class="grade">
+        <div>
+          <label for="edicao-nome">Nome do signatário</label>
+          <input id="edicao-nome" name="nomeSignatario" required>
+        </div>
+        <div>
+          <label for="edicao-email">E-mail do signatário</label>
+          <input id="edicao-email" name="emailSignatario" type="email" required>
+        </div>
+        <div>
+          <label for="edicao-cpf">CPF do signatário</label>
+          <input id="edicao-cpf" name="cpfSignatario" inputmode="numeric" placeholder="000.000.000-00" required>
+        </div>
+        <div>
+          <label for="edicao-nascimento">Data de nascimento do signatário</label>
+          <input id="edicao-nascimento" name="dataNascimentoSignatario" inputmode="numeric" placeholder="dd/mm/aaaa" maxlength="10" required>
+        </div>
+        <div>
+          <label for="edicao-validade">Nova validade (dias a partir de agora)</label>
+          <input id="edicao-validade" name="validadeDias" type="number" min="1" max="30" placeholder="Manter a atual">
+        </div>
+      </div>
+
+      <p class="aviso" id="edicao-validade-atual"></p>
+      <p class="aviso">
+        Ao salvar, o signatário precisará se identificar novamente. O link continua o mesmo;
+        se o e-mail for alterado, ele será reenviado ao novo endereço.
+      </p>
+      <p id="mensagem-edicao" class="mensagem oculto" role="alert"></p>
+      <div class="acoes">
+        <button type="submit">Salvar alterações</button>
+        <button type="button" class="secundario" id="cancelar-edicao">Cancelar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/js/comum.js"></script>
+  <script type="module" src="/js/painel.js"></script>
+</body>
+</html>
